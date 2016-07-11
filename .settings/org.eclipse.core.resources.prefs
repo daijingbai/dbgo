@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//resources/properties/messages.properties=UTF-8
+encoding//src/dbgo/system/action/FirstAction.java=UTF-8
+encoding//src/dbgo/system/action/LoginController.java=UTF-8
+encoding//src/dbgo/system/exception/CustomException.java=UTF-8
+encoding//src/dbgo/system/shiro/CustomFormAuthenticationFilter.java=UTF-8
+encoding//src/dbgo/system/util/common/TreeJson.java=UTF-8
+encoding//src/dbgo/system/util/mapper/JsonMapper.java=UTF-8
+encoding//test/dbgo/test/utils/SpringJunitTest.java=UTF-8
