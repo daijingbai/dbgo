@@ -97,7 +97,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    TBL_USER.USER_ID, TBL_USER.USER_CODE, TBL_USER.USER_NAME, TBL_USER.PWD, TBL_USER.SALT, 
+    TBL_USER.USER_ID, TBL_USER.USER_CODE, TBL_USER.USER_NAME,TBL_USER.PWD,TBL_USER.SALT, 
     TBL_USER.STATUS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="dbgo.system.bean.UserExample" >

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="dbgo.system.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="dbgo.system.bean.User" >
-    <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
-    <result column="USER_CODE" property="userCode" jdbcType="VARCHAR" />
-    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
-    <result column="PWD" property="pwd" jdbcType="VARCHAR" />
-    <result column="SALT" property="salt" jdbcType="VARCHAR" />
-    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+<mapper namespace="dbgo.system.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="dbgo.system.bean.Role" >
+    <id column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -97,16 +93,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    TBL_USER.USER_ID, TBL_USER.USER_CODE, TBL_USER.USER_NAME,TBL_USER.PWD,TBL_USER.SALT, 
-    TBL_USER.STATUS
+    TBL_ROLE.ROLE_ID, TBL_ROLE.NAME
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="dbgo.system.bean.UserExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="dbgo.system.bean.RoleExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from TBL_USER
+    from TBL_ROLE
     <if test="join != null" >
       ${join}
     </if>
@@ -123,7 +118,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from TBL_USER
+    from TBL_ROLE
     <if test="example.join != null" >
       ${example.join}
     </if>
@@ -133,88 +128,59 @@
     <if test="example.orderByClause != null" >
       order by ${example.orderByClause}
     </if>
-    ) g where rownum &lt; ${endPage} ) where rn &gt;= ${startPage}
+    ) g where rownum &lt; ${endPage} ) where rn &gt;＝ ${startPage}
   </select>
-  <!-- 根据主健查询 -->
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from TBL_USER
-    where USER_ID = #{userId,jdbcType=DECIMAL}
+    from TBL_ROLE
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
-    delete from TBL_USER
-    where USER_ID = #{userId,jdbcType=DECIMAL}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ROLE
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
   </delete>
-  <delete id="deleteByExample" parameterType="dbgo.system.bean.UserExample" >
-    delete from TBL_USER
+  <delete id="deleteByExample" parameterType="dbgo.system.bean.RoleExample" >
+    delete from TBL_ROLE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="dbgo.system.bean.User" >
-    <selectKey resultType="java.math.BigDecimal" keyProperty="userId" order="BEFORE" >
-      select SEQ_TBL_USER.NEXTVAL from dual
+  <insert id="insert" parameterType="dbgo.system.bean.Role" >
+    <selectKey resultType="java.lang.Long" keyProperty="roleId" order="BEFORE" >
+      select SEQ_TBL_ROLE.NEXTVAL from dual
     </selectKey>
-    insert into TBL_USER (USER_ID, USER_CODE, USER_NAME, 
-      PWD, SALT, STATUS)
-    values (#{userId,jdbcType=DECIMAL}, #{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
-      #{pwd,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL})
+    insert into TBL_ROLE (ROLE_ID, NAME)
+    values (#{roleId,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR})
   </insert>
   <insert id="batchInsert" parameterType="java.util.List" >
-    insert into TBL_USER (USER_ID, USER_CODE, USER_NAME, PWD, 
-      SALT, STATUS)
-    select SEQ_TBL_USER.NEXTVAL  ,A.* from(
+    insert into TBL_ROLE (ROLE_ID, NAME)
+    select SEQ_TBL_ROLE.NEXTVAL  ,A.* from(
     <foreach collection="list"  item="item"  index="index" separator="union all">
-    (select #{item.userCode,jdbcType=VARCHAR}, #{item.userName,jdbcType=VARCHAR}, #{item.pwd,jdbcType=VARCHAR}, 
-      #{item.salt,jdbcType=VARCHAR}, #{item.status,jdbcType=DECIMAL} from dual)
+    (select #{item.name,jdbcType=VARCHAR} from dual)
     </foreach>
     ) A
   </insert>
-  <insert id="insertSelective" parameterType="dbgo.system.bean.User" >
-    <selectKey resultType="java.math.BigDecimal" keyProperty="userId" order="BEFORE" >
-      select SEQ_TBL_USER.NEXTVAL from dual
+  <insert id="insertSelective" parameterType="dbgo.system.bean.Role" >
+    <selectKey resultType="java.lang.Long" keyProperty="roleId" order="BEFORE" >
+      select SEQ_TBL_ROLE.NEXTVAL from dual
     </selectKey>
-    insert into TBL_USER
+    insert into TBL_ROLE
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      USER_ID,
-      <if test="userCode != null" >
-        USER_CODE,
-      </if>
-      <if test="userName != null" >
-        USER_NAME,
-      </if>
-      <if test="pwd != null" >
-        PWD,
-      </if>
-      <if test="salt != null" >
-        SALT,
-      </if>
-      <if test="status != null" >
-        STATUS,
+      ROLE_ID,
+      <if test="name != null" >
+        NAME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{userId,jdbcType=DECIMAL},
-      <if test="userCode != null" >
-        #{userCode,jdbcType=VARCHAR},
-      </if>
-      <if test="userName != null" >
-        #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="pwd != null" >
-        #{pwd,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null" >
-        #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=DECIMAL},
+      #{roleId,jdbcType=DECIMAL},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="dbgo.system.bean.UserExample" resultType="java.lang.Integer" >
-    select count(*) from TBL_USER
+  <select id="countByExample" parameterType="dbgo.system.bean.RoleExample" resultType="java.lang.Integer" >
+    select count(*) from TBL_ROLE
     <if test="join != null" >
       ${join}
     </if>
@@ -223,25 +189,13 @@
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update TBL_USER
+    update TBL_ROLE
     <set >
-      <if test="record.userId != null" >
-        USER_ID = #{record.userId,jdbcType=DECIMAL},
+      <if test="record.roleId != null" >
+        ROLE_ID = #{record.roleId,jdbcType=DECIMAL},
       </if>
-      <if test="record.userCode != null" >
-        USER_CODE = #{record.userCode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.userName != null" >
-        USER_NAME = #{record.userName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.pwd != null" >
-        PWD = #{record.pwd,jdbcType=VARCHAR},
-      </if>
-      <if test="record.salt != null" >
-        SALT = #{record.salt,jdbcType=VARCHAR},
-      </if>
-      <if test="record.status != null" >
-        STATUS = #{record.status,jdbcType=DECIMAL},
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -249,45 +203,25 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update TBL_USER
-    set USER_ID = #{record.userId,jdbcType=DECIMAL},
-      USER_CODE = #{record.userCode,jdbcType=VARCHAR},
-      USER_NAME = #{record.userName,jdbcType=VARCHAR},
-      PWD = #{record.pwd,jdbcType=VARCHAR},
-      SALT = #{record.salt,jdbcType=VARCHAR},
-      STATUS = #{record.status,jdbcType=DECIMAL}
+    update TBL_ROLE
+    set ROLE_ID = #{record.roleId,jdbcType=DECIMAL},
+      NAME = #{record.name,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="dbgo.system.bean.User" >
-    update TBL_USER
+  <update id="updateByPrimaryKeySelective" parameterType="dbgo.system.bean.Role" >
+    update TBL_ROLE
     <set >
-      <if test="userCode != null" >
-        USER_CODE = #{userCode,jdbcType=VARCHAR},
-      </if>
-      <if test="userName != null" >
-        USER_NAME = #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="pwd != null" >
-        PWD = #{pwd,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null" >
-        SALT = #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        STATUS = #{status,jdbcType=DECIMAL},
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
       </if>
     </set>
-    where USER_ID = #{userId,jdbcType=DECIMAL}
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
   </update>
-  <update id="updateByPrimaryKey" parameterType="dbgo.system.bean.User" >
-    update TBL_USER
-    set USER_CODE = #{userCode,jdbcType=VARCHAR},
-      USER_NAME = #{userName,jdbcType=VARCHAR},
-      PWD = #{pwd,jdbcType=VARCHAR},
-      SALT = #{salt,jdbcType=VARCHAR},
-      STATUS = #{status,jdbcType=DECIMAL}
-    where USER_ID = #{userId,jdbcType=DECIMAL}
+  <update id="updateByPrimaryKey" parameterType="dbgo.system.bean.Role" >
+    update TBL_ROLE
+    set NAME = #{name,jdbcType=VARCHAR}
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
   </update>
 </mapper>

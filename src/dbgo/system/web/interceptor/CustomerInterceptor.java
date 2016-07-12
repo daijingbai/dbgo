@@ -10,8 +10,6 @@ import org.json.JSONObject;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
-
 public class CustomerInterceptor implements HandlerInterceptor{
 
 	private static Logger log=Logger.getLogger(CustomerInterceptor.class);

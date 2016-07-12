@@ -14,13 +14,14 @@ var T_cm=function(name,field){
 }
 
 var T_field=function(name,field){
-	var defaults={width:120,required:false,height:20,type:'textbox',padding:'1px 1px',missingMessage:'请输入'+name};
+	var defaults={width:150,required:false,height:20,type:'textbox',padding:'1px 1px',missingMessage:'请输入'+name};
 	for(var i=2;i<arguments.length;i++){
 		dafaults=$.extend(defaults,arguments[i]);
 	}
-	var tbar='&nbsp;&nbsp;<a style=display:inline-table;width:80px;>'+name+': </a><input name='+field+' style="width:'+defaults.width+'px;margin-top:0px">';
-	var div=$('<div style=margin-bottom:5px;><a style=display:inline-block;>'+name+'</a>'+
-			'<input class="easyui-textbox" name='+field+' style=margin-left:0px;width:'+defaults.width+'px></input></div>');
+
+	var tbar='&nbsp;&nbsp;<a style=display:inline-table;width:80px;>'+name+': </a><input name=_'+field+' style="width:'+defaults.width+'px;margin-top:0px">';
+	var div=$('<div style=margin-bottom:5px;><a style=display:inline-block;width:80px;>'+name+':</a>'+
+			'<input id='+field+' name='+field+' style=margin-left:0px;width:'+defaults.width+'px></input></div>');
 	var divs={div:div,tbar:tbar,field:field}
 	defaults=$.extend(defaults,divs);
 	return defaults;

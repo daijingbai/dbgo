@@ -72,7 +72,6 @@ public class CustomRealm extends AuthorizingRealm{
 	}
 
 	//认证
-	@SuppressWarnings("unused")
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		// token是用户输入的用户名和密码 

@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -60,6 +62,7 @@ public class User implements Serializable{
         this.userName = userName == null ? null : userName.trim();
     }
 
+    @JsonIgnore
     public String getPwd() {
         return pwd;
     }
@@ -68,6 +71,7 @@ public class User implements Serializable{
         this.pwd = pwd == null ? null : pwd.trim();
     }
 
+    @JsonIgnore
     public String getSalt() {
         return salt;
     }

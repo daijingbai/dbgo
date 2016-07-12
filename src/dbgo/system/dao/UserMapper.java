@@ -1,5 +1,6 @@
 package dbgo.system.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +13,7 @@ public interface UserMapper {
 
     int deleteByExample(UserExample example);
 
-    int deleteByPrimaryKey(Long userId);
+    int deleteByPrimaryKey(BigDecimal userId);
 
     int insert(User record);
 

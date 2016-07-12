@@ -1,32 +1,65 @@
 package dbgo.system.service.impl;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static dbgo.system.util.messages.Messages.getString;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dbgo.system.bean.Resource;
 import dbgo.system.bean.User;
 import dbgo.system.bean.UserExample;
 import dbgo.system.bean.UserExample.Criteria;
 import dbgo.system.dao.UserMapper;
+import dbgo.system.exception.CustomException;
 import dbgo.system.service.UserService;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
-	 @Autowired
-	 UserMapper userMapper;
+	@Autowired
+	UserMapper userMapper;
 	
-	public int deleteByPrimaryKey(Long userId) throws Exception {
-        return userMapper.deleteByPrimaryKey(userId);
+	public void deleteByPrimaryKey(String[] ids) throws Exception {
+		for (String id : ids) {
+			userMapper.deleteByPrimaryKey(new BigDecimal(id));
+		}
     }
 
     public int insert(User record) throws Exception {
+    	//1.判断用户编号是否重复
+    	UserExample example=new UserExample();
+    	example.createCriteria().andUserCodeEqualTo(record.getUserCode());
+    	List<User> users=userMapper.selectByExample(example);
+    	if(users.size()>0){
+    		throw new CustomException(getString("UserError.1", record.getUserCode()));
+    	}
+    	//生成盐
+    	String str = "";  
+	    Random random = new Random();  
+	    for (int i = 0; i < 5; i++) {  
+	        boolean b = random.nextBoolean();  
+	        if (b) { // 字符串  
+	            // int choice = random.nextBoolean() ? 65 : 97; 取得65大写字母还是97小写字母  
+	            str += (char) (97 + random.nextInt(26));// 取得大写字母  
+	        } else { // 数字  
+	            str += String.valueOf(random.nextInt(10));  
+	        }  
+	    } 
+	    record.setSalt(str);
+	    
+	    //生成密码
+        Md5Hash md5Hash = new Md5Hash(record.getUserCode(), str, 1);
+        record.setPwd(md5Hash.toString());
+        record.setStatus((short)0);
         return userMapper.insert(record);
     }
 
@@ -47,6 +80,15 @@ public class UserServiceImpl implements UserService {
     }
 
     public int updateByPrimaryKeySelective(User record) throws Exception {
+    	//1.查看是否改变了用户编号
+    	UserExample example=new UserExample();
+    	example.createCriteria().andUserCodeEqualTo(record.getUserCode())
+    		.andUserIdEqualTo(record.getUserId());
+    	List<User> users=userMapper.selectByExample(example);
+    	if(users.size()==0){
+    		throw new CustomException(getString("UserError.2"));
+    	}
+    	
         return userMapper.updateByPrimaryKeySelective(record);
     }
     

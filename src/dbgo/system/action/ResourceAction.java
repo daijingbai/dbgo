@@ -20,6 +20,11 @@ import dbgo.system.util.common.TreeJson;
 public class ResourceAction {
     @Autowired
     ResourceService resourceServiceImpl;
+    
+    @RequestMapping(value="/Index.do")
+	public String index(){
+		return "role";
+	}
 
     @RequestMapping(value="/delete.do")
     public void delete(Long resourceId) throws Exception {

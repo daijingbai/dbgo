@@ -1,6 +1,7 @@
 package dbgo.test.utils;
 
 import java.util.List;
+import java.util.Random;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -38,5 +39,21 @@ public class MD5Test extends SpringJunitTest{
 	public void test() throws Exception{
 		List<dbgo.system.bean.Resource> res=resourceServiceImpl.findPermissionListByUserCode("110");
 		System.out.println(res.size());
+	}
+	
+	@Test
+	public void test1(){
+		String str = "";  
+	    Random random = new Random();  
+	    for (int i = 0; i < 5; i++) {  
+	        boolean b = random.nextBoolean();  
+	        if (b) { // 字符串  
+	            // int choice = random.nextBoolean() ? 65 : 97; 取得65大写字母还是97小写字母  
+	            str += (char) (97 + random.nextInt(26));// 取得大写字母  
+	        } else { // 数字  
+	            str += String.valueOf(random.nextInt(10));  
+	        }  
+	    }  
+	    System.out.println(str);
 	}
 }

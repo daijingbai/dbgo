@@ -36,26 +36,26 @@ public class Messages {
 
     public static String getString(String key) {
         try {
-            return RESOURCE_BUNDLE.getString(key);
-        } catch (MissingResourceException e) {
+            return new String(RESOURCE_BUNDLE.getString(key).getBytes("ISO-8859-1"),"UTF-8");
+        } catch (Exception e) {
             return '!' + key + '!';
         }
     }
 
     public static String getString(String key, String parm1) {
         try {
-            return MessageFormat.format(RESOURCE_BUNDLE.getString(key),
-                    new Object[] { parm1 });
-        } catch (MissingResourceException e) {
+            return new String(MessageFormat.format(RESOURCE_BUNDLE.getString(key),
+                    new Object[] { parm1 }).getBytes("ISO-8859-1"),"UTF-8");
+        } catch (Exception e) {
             return '!' + key + '!';
         }
     }
 
     public static String getString(String key, String parm1, String parm2) {
         try {
-            return MessageFormat.format(RESOURCE_BUNDLE.getString(key),
-                    new Object[] { parm1, parm2 });
-        } catch (MissingResourceException e) {
+        	return new String(MessageFormat.format(RESOURCE_BUNDLE.getString(key),
+                    new Object[] { parm1, parm2 }).getBytes("ISO-8859-1"),"UTF-8");
+        } catch (Exception e) {
             return '!' + key + '!';
         }
     }

@@ -13,16 +13,12 @@
 	$(function(){
 		$.DataGridePanel({
 			url:'${ctx}/User/findByPage.do',
-			T_bar:[true,true,true,
-			       '<a iconCls="icon-search" plain="true" href="javascript:search()">查询</a>',
+			T_bar:[true,true,true,true,
+			       '<a iconCls="icon-link" plain="true" href="javascript:test1()">管理角色</a>',
 			       '<a iconCls="icon-print" plain="true" href="javascript:test1()">打印</a>'],
 			typename:"User"
 		}); 
 	})
-	
-	function search(){
-		$('#User').datagrid('reload');
-	}
 	
 	function test1(){
 		alert('test1');

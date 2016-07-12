@@ -54,7 +54,7 @@
 			</div>
 		</div>
 		<div data-options="region:'center',title:''">
-			<div id="tbs" class="easyui-tabs" data-options="fit:true,border:false"></div>
+			<div id="tbs" class="easyui-tabs" data-options="fit:true,border:false,pill:true"></div>
 		</div>
 	</div>
 </body>
